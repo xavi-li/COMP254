@@ -258,57 +258,57 @@ public class DoublyLinkedList<E> {
   public static void main(String[] args)
   {
 	  // Create and populate a doubly linked list
-	  DoublyLinkedList<String> l1 = new DoublyLinkedList<String>();
-      l1.addFirst("LAX");
-      l1.addLast("MSP");
-      l1.addLast("ATL");
-      l1.addLast("BOS");
+	  DoublyLinkedList<String> L1 = new DoublyLinkedList<String>();
+      L1.addFirst("LAX");
+      L1.addLast("MSP");
+      L1.addLast("ATL");
+      L1.addLast("BOS");
 
       // Create and populate a second doubly linked list
-      DoublyLinkedList<String> l2 = new DoublyLinkedList<String>();
-      l2.addFirst("SFO");
-      l2.addLast("ORD");
+      DoublyLinkedList<String> L2 = new DoublyLinkedList<String>();
+      L2.addFirst("SFO");
+      L2.addLast("ORD");
 
       // Create a new list
-      DoublyLinkedList<String> l = new DoublyLinkedList<String>();
+      DoublyLinkedList<String> L = new DoublyLinkedList<String>();
 
       // Test #1
       // Display the two original lists
       System.out.println("Test #1 - Original Lists:");
-      System.out.println("List 1: " + l1);
-      System.out.println("List 2: " + l2);
-      System.out.println("List: " + l);
+      System.out.println("List 1: " + L1);
+      System.out.println("List 2: " + L2);
+      System.out.println("List: " + L);
 
       // Concatenate the two lists
-      l.concatenate(l1, l2);
+      L.concatenate(L1, L2);
 
       // Display the concatenated list
       System.out.println("Test #1 - Concatenated Lists:");
-      System.out.println("List 1: " + l1);
-      System.out.println("List 2: " + l2);
-      System.out.println("List: " + l);
+      System.out.println("List 1: " + L1);
+      System.out.println("List 2: " + L2);
+      System.out.println("List: " + L);
 
       // Test #2
-      l = new DoublyLinkedList<String>();
-      l1 = new DoublyLinkedList<String>();
-      l2 = new DoublyLinkedList<String>();
-      l2.addLast("HKG");
-      l2.addLast("TPE");
-      l2.addLast("NRT");
+      L = new DoublyLinkedList<String>();
+      L1 = new DoublyLinkedList<String>();
+      L2 = new DoublyLinkedList<String>();
+      L2.addLast("HKG");
+      L2.addLast("TPE");
+      L2.addLast("NRT");
 
       // Display the two original lists
       System.out.println("Test #2 - Original Lists:");
-      System.out.println("List 1: " + l1);
-      System.out.println("List 2: " + l2);
-      System.out.println("List: " + l);
+      System.out.println("List 1: " + L1);
+      System.out.println("List 2: " + L2);
+      System.out.println("List: " + L);
 
       // Concatenate the two lists
-      l.concatenate(l1, l2);
+      L.concatenate(L1, L2);
 
       // Display the concatenated list
       System.out.println("Test #2 - Concatenated Lists:");
-      System.out.println("List 1: " + l1);
-      System.out.println("List 2: " + l2);
-      System.out.println("List: " + l);
+      System.out.println("List 1: " + L1);
+      System.out.println("List 2: " + L2);
+      System.out.println("List: " + L);
   }
 } //----------- end of DoublyLinkedList class -----------

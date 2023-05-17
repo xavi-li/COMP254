@@ -179,4 +179,113 @@ public class CircularlyLinkedList<E> {
         sb.append(")");
         return sb.toString();
     }
+
+    /**
+     * Checks if two circularly linked lists have the same sequence of elements.
+     *
+     * @param L1 the first circularly linked list
+     * @param L2 the second circularly linked list
+     * @return true if L1 and L2 store the same sequence of elements, false otherwise
+     */
+    public static <E> boolean hasSameElementsSeq(CircularlyLinkedList<E> L1, CircularlyLinkedList<E> L2) {
+        // Different sizes, sequences cannot match
+        if (L1.size() != L2.size()) {
+            return false;
+        }
+
+        // Both lists are empty, so sequences match
+        if (L1.isEmpty() && L2.isEmpty()) {
+            return true;
+        }
+
+        Node<E> startL1 = L1.tail.getNext(); // Starting point for L1
+        Node<E> startL2 = L2.tail.getNext(); // Starting point for L2
+
+        // No need to set walkL1, focus on rotating L2 to match L1
+        Node<E> walkL2 = startL2;
+
+        // Find a matching starting node between L1 and L2
+        while (!startL1.getElement().equals(walkL2.getElement())) {
+            walkL2 = walkL2.getNext();
+
+            if (walkL2 == startL2) {
+                return false; // No match found
+            }
+        }
+
+        // Check the remaining elements to determine if the sequences match
+        Node<E> tempL1 = startL1.getNext();
+        Node<E> tempL2 = walkL2.getNext();
+
+        while (tempL1 != startL1 && tempL2 != startL2) {
+            if (!tempL1.getElement().equals(tempL2.getElement())) {
+                return false; // Sequence doesn't match
+            }
+            tempL1 = tempL1.getNext();
+            tempL2 = tempL2.getNext();
+        }
+
+        return true; // Sequences match
+    }
+
+
+    public static void main(String[] args) {
+        // Creating two circularly linked lists (L1 and L2)
+        CircularlyLinkedList<Integer> L1 = new CircularlyLinkedList<>();
+        CircularlyLinkedList<Integer> L2 = new CircularlyLinkedList<>();
+
+        // Test #1 - positive test case
+        // Adding elements to L1
+        L1.addLast(1);
+        L1.addLast(2);
+        L1.addLast(3);
+        L1.addLast(4);
+        L1.addLast(5);
+
+        // Adding elements to L2
+        L2.addLast(5);
+        L2.addLast(4);
+        L2.addLast(1);
+        L2.addLast(2);
+        L2.addLast(3);
+
+        // Printing out the contents of L1 and L2
+        System.out.println("Test #1 - L1: " + L1);
+        System.out.println("Test #1 - L2: " + L2);
+
+        // Testing the checkElements method
+        boolean sequenceMatch = hasSameElementsSeq(L1, L2);
+
+        // Printing out the result of the checkElements method
+        System.out.println("Test #1 - Sequence Match: " + sequenceMatch);
+
+        // Test #2 - negative test case
+        // Adding elements to L1
+        L1 = new CircularlyLinkedList<>();
+        L2 = new CircularlyLinkedList<>();
+
+        // Adding elements to L1
+        L1.addLast(1);
+        L1.addLast(2);
+        L1.addLast(3);
+        L1.addLast(4);
+        L1.addLast(5);
+
+        // Adding elements to L2
+        L2.addLast(5);
+        L2.addLast(4);
+        L2.addLast(0);
+        L2.addLast(2);
+        L2.addLast(3);
+
+        // Printing out the contents of L1 and L2
+        System.out.println("Test #2 - L1: " + L1);
+        System.out.println("Test #2 - L2: " + L2);
+
+        // Testing the checkElements method
+        sequenceMatch = hasSameElementsSeq(L1, L2);
+
+        // Printing out the result of the checkElements method
+        System.out.println("Test #2 - Sequence Match: " + sequenceMatch);
+    }
 }
