@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.exercise3;
+package com.exercise3.YuenKwan.LI;
 
 /**
  * An implementation of a circularly linked list.
@@ -259,6 +259,8 @@ public class CircularlyLinkedList<E> {
 
         // Printing out the result of the checkElements method
         System.out.println("Test #1 - Sequence Match: " + sequenceMatch);
+
+        System.out.println("");
 
         // Test #2 - negative test case
         // Adding elements to L1

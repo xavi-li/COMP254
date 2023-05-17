@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.exercise1;
+package com.exercise1.YuenKwan.LI;
 
 /**
  * A basic doubly linked list implementation.
@@ -333,6 +333,8 @@ public class DoublyLinkedList<E> {
 
       // Display the swapped list
       System.out.println("Test #1 - List after swap: " + list);
+
+      System.out.println("");
 
       // Test swapTwoNodes method #2 - adjacent nodes
       // Get references to the 1st and 2nd nodes

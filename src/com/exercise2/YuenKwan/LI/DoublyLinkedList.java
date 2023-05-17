@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.exercise2;
+package com.exercise2.YuenKwan.LI;
 
 /**
  * A basic doubly linked list implementation.
@@ -287,6 +287,8 @@ public class DoublyLinkedList<E> {
       System.out.println("List 1: " + L1);
       System.out.println("List 2: " + L2);
       System.out.println("List: " + L);
+
+      System.out.println("");
 
       // Test #2
       L = new DoublyLinkedList<String>();
