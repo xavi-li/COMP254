@@ -231,49 +231,77 @@ public class DoublyLinkedList<E> {
    * @param node2 the second node to swap
    */
   public void swapTwoNodes(Node<E> node1, Node<E> node2) {
-    // return if either node is null or if they are the same node
+    // Return if either node is null or if they are the same node
     if (node1 == null || node2 == null || node1 == node2) {
       return;
     }
 
-    // get the previous and next nodes of node1 and node2
-    Node<E> prevNode1 = node1.getPrev();
-    Node<E> nextNode1 = node1.getNext();
-    Node<E> prevNode2 = node2.getPrev();
-    Node<E> nextNode2 = node2.getNext();
+    // Check if the nodes are adjacent
+    if (node1.getNext() == node2 || node2.getNext() == node1) {
+      // Swap the previous references
+      Node<E> tempPrev1 = node1.getPrev();
+      node1.setPrev(node2);
+      node2.setPrev(tempPrev1);
 
-    // set the previous and next references for node1 and node2
-    node1.setPrev(prevNode2);
-    node1.setNext(nextNode2);
-    node2.setPrev(prevNode1);
-    node2.setNext(nextNode1);
+      // Swap the next references
+      Node<E> tempNext2 = node2.getNext();
+      node2.setNext(node1);
+      node1.setNext(tempNext2);
 
-    // update next reference of node1's previous node
-    if (prevNode1 != null) {
-      prevNode1.setNext(node2);
+      // Update previous reference of node1's next node
+      if (node1.getNext() != null) {
+        node1.getNext().setPrev(node1);
+      } else {
+        trailer.setPrev(node1);
+      }
+
+      // Update next reference of node2's previous node
+      if (node2.getPrev() != null) {
+        node2.getPrev().setNext(node2);
+      } else {
+        header.setNext(node2);
+      }
     } else {
-      header.setNext(node2);
-    }
+      // Swap non-adjacent nodes
+      // get the previous and next nodes of node1 and node2
+      Node<E> prevNode1 = node1.getPrev();
+      Node<E> nextNode1 = node1.getNext();
+      Node<E> prevNode2 = node2.getPrev();
+      Node<E> nextNode2 = node2.getNext();
 
-    // Update previous reference of node1's next node
-    if (nextNode1 != null) {
-      nextNode1.setPrev(node2);
-    } else {
-      trailer.setPrev(node2);
-    }
+      // set the previous and next references for node1 and node2
+      node1.setPrev(prevNode2);
+      node1.setNext(nextNode2);
+      node2.setPrev(prevNode1);
+      node2.setNext(nextNode1);
 
-    // Update next reference of node2's previous node
-    if (prevNode2 != null) {
-      prevNode2.setNext(node1);
-    } else {
-      header.setNext(node1);
-    }
+      // update next reference of node1's previous node
+      if (prevNode1 != null) {
+        prevNode1.setNext(node2);
+      } else {
+        header.setNext(node2);
+      }
 
-    // Update previous reference of node2's next node
-    if (nextNode2 != null) {
-      nextNode2.setPrev(node1);
-    } else {
-      trailer.setPrev(node1);
+      // Update previous reference of node1's next node
+      if (nextNode1 != null) {
+        nextNode1.setPrev(node2);
+      } else {
+        trailer.setPrev(node2);
+      }
+
+      // Update next reference of node2's previous node
+      if (prevNode2 != null) {
+        prevNode2.setNext(node1);
+      } else {
+        header.setNext(node1);
+      }
+
+      // Update previous reference of node2's next node
+      if (nextNode2 != null) {
+        nextNode2.setPrev(node1);
+      } else {
+        trailer.setPrev(node1);
+      }
     }
   }
 
@@ -289,21 +317,38 @@ public class DoublyLinkedList<E> {
 	  list.addFirst("LAX");
 	  //
 
-      // Test swapTwoNodes method
+      // Test swapTwoNodes method #1 - non-adjacent nodes
       // Get references to the 1st and 4th nodes
       Node<String> node1 = list.header.getNext(); // 1st node
       Node<String> node2 = list.trailer.getPrev(); // 4th node
 
       // Display the original list
-      System.out.println("Original List: " + list);
+      System.out.println("Test #1 - Original List: " + list);
 
       // Display the nodes to swap
-      System.out.println("Nodes to swap: " + node1.getElement() + ", " + node2.getElement());
+      System.out.println("Test #1 - Nodes to swap: " + node1.getElement() + ", " + node2.getElement());
 
       // Swap the nodes
       list.swapTwoNodes(node1, node2);
 
       // Display the swapped list
-      System.out.println("List after swap: " + list);
+      System.out.println("Test #1 - List after swap: " + list);
+
+      // Test swapTwoNodes method #2 - adjacent nodes
+      // Get references to the 1st and 2nd nodes
+      node1 = list.header.getNext(); // 1st node
+      node2 = list.header.getNext().getNext(); // 2nd node
+
+      // Display the original list
+      System.out.println("Test #2 - Original List: " + list);
+
+      // Display the nodes to swap
+      System.out.println("Test #2 - Nodes to swap: " + node1.getElement() + ", " + node2.getElement());
+
+      // Swap the nodes
+      list.swapTwoNodes(node1, node2);
+
+      // Display the swapped list
+      System.out.println("Test #2 - List after swap: " + list);
   }
 } //----------- end of DoublyLinkedList class -----------
