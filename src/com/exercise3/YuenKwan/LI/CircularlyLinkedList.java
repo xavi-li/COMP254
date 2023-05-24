@@ -22,6 +22,7 @@
  */
 package com.exercise3.YuenKwan.LI;
 
+
 /**
  * An implementation of a circularly linked list.
  *
@@ -30,265 +31,308 @@ package com.exercise3.YuenKwan.LI;
  * @author Michael H. Goldwasser
  */
 public class CircularlyLinkedList<E> {
-    //---------------- nested Node class ----------------
-    /**
-     * Singly linked node, which stores a reference to its element and
-     * to the subsequent node in the list.
-     */
-    private static class Node<E> {
+  //---------------- nested Node class ----------------
+  /**
+   * Singly linked node, which stores a reference to its element and
+   * to the subsequent node in the list.
+   */
+  private static class Node<E> {
 
-        /** The element stored at this node */
-        private E element;     // an element stored at this node
+    /** The element stored at this node */
+    private E element;     // an element stored at this node
 
-        /** A reference to the subsequent node in the list */
-        private Node<E> next;  // a reference to the subsequent node in the list
-
-        /**
-         * Creates a node with the given element and next node.
-         *
-         * @param e  the element to be stored
-         * @param n  reference to a node that should follow the new node
-         */
-        public Node(E e, Node<E> n) {
-            element = e;
-            next = n;
-        }
-
-        // Accessor methods
-        /**
-         * Returns the element stored at the node.
-         * @return the element stored at the node
-         */
-        public E getElement() { return element; }
-
-        /**
-         * Returns the node that follows this one (or null if no such node).
-         * @return the following node
-         */
-        public Node<E> getNext() { return next; }
-
-        // Modifier methods
-        /**
-         * Sets the node's next reference to point to Node n.
-         * @param n    the node that should follow this one
-         */
-        public void setNext(Node<E> n) { next = n; }
-    } //----------- end of nested Node class -----------
-
-    // instance variables of the CircularlyLinkedList
-    /** The designated cursor of the list */
-    private Node<E> tail = null;                  // we store tail (but not head)
-
-    /** Number of nodes in the list */
-    private int size = 0;                         // number of nodes in the list
-
-    /** Constructs an initially empty list. */
-    public CircularlyLinkedList() { }             // constructs an initially empty list
-
-    // access methods
-    /**
-     * Returns the number of elements in the linked list.
-     * @return number of elements in the linked list
-     */
-    public int size() { return size; }
+    /** A reference to the subsequent node in the list */
+    private Node<E> next;  // a reference to the subsequent node in the list
 
     /**
-     * Tests whether the linked list is empty.
-     * @return true if the linked list is empty, false otherwise
-     */
-    public boolean isEmpty() { return size == 0; }
-
-    /**
-     * Returns (but does not remove) the first element of the list
-     * @return element at the front of the list (or null if empty)
-     */
-    public E first() {             // returns (but does not remove) the first element
-        if (isEmpty()) return null;
-        return tail.getNext().getElement();         // the head is *after* the tail
-    }
-
-    /**
-     * Returns (but does not remove) the last element of the list
-     * @return element at the back of the list (or null if empty)
-     */
-    public E last() {              // returns (but does not remove) the last element
-        if (isEmpty()) return null;
-        return tail.getElement();
-    }
-
-    // update methods
-    /**
-     * Rotate the first element to the back of the list.
-     */
-    public void rotate() {         // rotate the first element to the back of the list
-        if (tail != null)                // if empty, do nothing
-            tail = tail.getNext();         // the old head becomes the new tail
-    }
-
-    /**
-     * Adds an element to the front of the list.
-     * @param e  the new element to add
-     */
-    public void addFirst(E e) {                // adds element e to the front of the list
-        if (size == 0) {
-            tail = new Node<>(e, null);
-            tail.setNext(tail);                     // link to itself circularly
-        } else {
-            Node<E> newest = new Node<>(e, tail.getNext());
-            tail.setNext(newest);
-        }
-        size++;
-    }
-
-    /**
-     * Adds an element to the end of the list.
-     * @param e  the new element to add
-     */
-    public void addLast(E e) {                 // adds element e to the end of the list
-        addFirst(e);             // insert new element at front of list
-        tail = tail.getNext();   // now new element becomes the tail
-    }
-
-    /**
-     * Removes and returns the first element of the list.
-     * @return the removed element (or null if empty)
-     */
-    public E removeFirst() {                   // removes and returns the first element
-        if (isEmpty()) return null;              // nothing to remove
-        Node<E> head = tail.getNext();
-        if (head == tail) tail = null;           // must be the only node left
-        else tail.setNext(head.getNext());       // removes "head" from the list
-        size--;
-        return head.getElement();
-    }
-
-    /**
-     * Produces a string representation of the contents of the list.
-     * This exists for debugging purposes only.
-     */
-    public String toString() {
-        if (tail == null) return "()";
-        StringBuilder sb = new StringBuilder("(");
-        Node<E> walk = tail;
-        do {
-            walk = walk.getNext();
-            sb.append(walk.getElement());
-            if (walk != tail)
-                sb.append(", ");
-        } while (walk != tail);
-        sb.append(")");
-        return sb.toString();
-    }
-
-    /**
-     * Checks if two circularly linked lists have the same sequence of elements.
+     * Creates a node with the given element and next node.
      *
-     * @param L1 the first circularly linked list
-     * @param L2 the second circularly linked list
-     * @return true if L1 and L2 store the same sequence of elements, false otherwise
+     * @param e  the element to be stored
+     * @param n  reference to a node that should follow the new node
      */
-    public static <E> boolean hasSameElementsSeq(CircularlyLinkedList<E> L1, CircularlyLinkedList<E> L2) {
-        // Different sizes, sequences cannot match
-        if (L1.size() != L2.size()) {
-            return false;
-        }
-
-        // Both lists are empty, so sequences match
-        if (L1.isEmpty() && L2.isEmpty()) {
-            return true;
-        }
-
-        Node<E> startL1 = L1.tail.getNext(); // Starting point for L1
-        Node<E> startL2 = L2.tail.getNext(); // Starting point for L2
-
-        // No need to set walkL1, focus on rotating L2 to match L1
-        Node<E> walkL2 = startL2;
-
-        // Find a matching starting node between L1 and L2
-        while (!startL1.getElement().equals(walkL2.getElement())) {
-            walkL2 = walkL2.getNext();
-
-            if (walkL2 == startL2) {
-                return false; // No match found
-            }
-        }
-
-        // Check the remaining elements to determine if the sequences match
-        Node<E> tempL1 = startL1.getNext();
-        Node<E> tempL2 = walkL2.getNext();
-
-        while (tempL1 != startL1 && tempL2 != startL2) {
-            if (!tempL1.getElement().equals(tempL2.getElement())) {
-                return false; // Sequence doesn't match
-            }
-            tempL1 = tempL1.getNext();
-            tempL2 = tempL2.getNext();
-        }
-
-        return true; // Sequences match
+    public Node(E e, Node<E> n) {
+      element = e;
+      next = n;
     }
 
+    // Accessor methods
+    /**
+     * Returns the element stored at the node.
+     * @return the element stored at the node
+     */
+    public E getElement() { return element; }
 
-    /* YuenKwanLI (Xavier) 301228849 */
-    public static void main(String[] args) {
-        // Creating two circularly linked lists (L1 and L2)
-        CircularlyLinkedList<Integer> L1 = new CircularlyLinkedList<>();
-        CircularlyLinkedList<Integer> L2 = new CircularlyLinkedList<>();
+    /**
+     * Returns the node that follows this one (or null if no such node).
+     * @return the following node
+     */
+    public Node<E> getNext() { return next; }
 
-        // Test #1 - positive test case
-        // Adding elements to L1
-        L1.addLast(1);
-        L1.addLast(2);
-        L1.addLast(3);
-        L1.addLast(4);
-        L1.addLast(5);
+    // Modifier methods
+    /**
+     * Sets the node's next reference to point to Node n.
+     * @param n    the node that should follow this one
+     */
+    public void setNext(Node<E> n) { next = n; }
+  } //----------- end of nested Node class -----------
 
-        // Adding elements to L2
-        L2.addLast(5);
-        L2.addLast(4);
-        L2.addLast(1);
-        L2.addLast(2);
-        L2.addLast(3);
+  // instance variables of the CircularlyLinkedList
+  /** The designated cursor of the list */
+  private Node<E> tail = null;                  // we store tail (but not head)
 
-        // Printing out the contents of L1 and L2
-        System.out.println("Test #1 - L1: " + L1);
-        System.out.println("Test #1 - L2: " + L2);
+  /** Number of nodes in the list */
+  private int size = 0;                         // number of nodes in the list
 
-        // Testing the checkElements method
-        boolean sequenceMatch = hasSameElementsSeq(L1, L2);
+  /** Constructs an initially empty list. */
+  public CircularlyLinkedList() { }             // constructs an initially empty list
 
-        // Printing out the result of the checkElements method
-        System.out.println("Test #1 - Sequence Match: " + sequenceMatch);
+  // access methods
+  /**
+   * Returns the number of elements in the linked list.
+   * @return number of elements in the linked list
+   */
+  public int size() { return size; }
 
-        System.out.println("");
+  /**
+   * Tests whether the linked list is empty.
+   * @return true if the linked list is empty, false otherwise
+   */
+  public boolean isEmpty() { return size == 0; }
 
-        // Test #2 - negative test case
-        // Adding elements to L1
-        L1 = new CircularlyLinkedList<>();
-        L2 = new CircularlyLinkedList<>();
+  /**
+   * Returns (but does not remove) the first element of the list
+   * @return element at the front of the list (or null if empty)
+   */
+  public E first() {             // returns (but does not remove) the first element
+    if (isEmpty()) return null;
+    return tail.getNext().getElement();         // the head is *after* the tail
+  }
 
-        // Adding elements to L1
-        L1.addLast(1);
-        L1.addLast(2);
-        L1.addLast(3);
-        L1.addLast(4);
-        L1.addLast(5);
+  /**
+   * Returns (but does not remove) the last element of the list
+   * @return element at the back of the list (or null if empty)
+   */
+  public E last() {              // returns (but does not remove) the last element
+    if (isEmpty()) return null;
+    return tail.getElement();
+  }
 
-        // Adding elements to L2
-        L2.addLast(5);
-        L2.addLast(4);
-        L2.addLast(0);
-        L2.addLast(2);
-        L2.addLast(3);
+  // update methods
+  /**
+   * Rotate the first element to the back of the list.
+   */
+  public void rotate() {         // rotate the first element to the back of the list
+    if (tail != null)                // if empty, do nothing
+      tail = tail.getNext();         // the old head becomes the new tail
+  }
 
-        // Printing out the contents of L1 and L2
-        System.out.println("Test #2 - L1: " + L1);
-        System.out.println("Test #2 - L2: " + L2);
-
-        // Testing the checkElements method
-        sequenceMatch = hasSameElementsSeq(L1, L2);
-
-        // Printing out the result of the checkElements method
-        System.out.println("Test #2 - Sequence Match: " + sequenceMatch);
+  /**
+   * Adds an element to the front of the list.
+   * @param e  the new element to add
+   */
+  public void addFirst(E e) {                // adds element e to the front of the list
+    if (size == 0) {
+      tail = new Node<>(e, null);
+      tail.setNext(tail);                     // link to itself circularly
+    } else {
+      Node<E> newest = new Node<>(e, tail.getNext());
+      tail.setNext(newest);
     }
+    size++;
+  }
+
+  /**
+   * Adds an element to the end of the list.
+   * @param e  the new element to add
+   */
+  public void addLast(E e) { // adds element e to the end of the list
+    addFirst(e);             // insert new element at front of list
+    tail = tail.getNext();   // now new element becomes the tail
+  }
+
+  /**
+   * Removes and returns the first element of the list.
+   * @return the removed element (or null if empty)
+   */
+  public E removeFirst() {                   // removes and returns the first element
+    if (isEmpty()) return null;              // nothing to remove
+    Node<E> head = tail.getNext();
+    if (head == tail) tail = null;           // must be the only node left
+    else tail.setNext(head.getNext());       // removes "head" from the list
+    size--;
+    return head.getElement();
+  }
+
+  /**
+   * Produces a string representation of the contents of the list.
+   * This exists for debugging purposes only.
+   */
+  public String toString() {
+    if (tail == null) return "()";
+    StringBuilder sb = new StringBuilder("(");
+    Node<E> walk = tail;
+    do {
+      walk = walk.getNext();
+      sb.append(walk.getElement());
+      if (walk != tail)
+        sb.append(", ");
+    } while (walk != tail);
+    sb.append(")");
+    return sb.toString();
+  }
+
+  /**
+   * Checks if two circularly linked lists have the same sequence of elements.
+   *
+   * @param L1 the first circularly linked list
+   * @param L2 the second circularly linked list
+   * @return true if L1 and L2 store the same sequence of elements, false otherwise
+   */
+  public static <E> boolean hasSameElementsSeq(CircularlyLinkedList<E> L1, CircularlyLinkedList<E> L2) {
+    // Different sizes, sequences cannot match
+    if (L1.size() != L2.size()) {
+      return false;
+    }
+
+    // Both lists are empty, so sequences match
+    if (L1.isEmpty() && L2.isEmpty()) {
+      return true;
+    }
+
+    Node<E> startL1 = L1.tail.getNext(); // Starting point for L1
+    Node<E> startL2 = L2.tail.getNext(); // Starting point for L2
+
+    // No need to set walkL1, focus on rotating L2 to match L1
+    CircularlyLinkedList.Node<E> walkL2 = startL2;
+
+    // Align starting node between L1 and L2
+    while (!startL1.getElement().equals(walkL2.getElement())) {
+      walkL2 = walkL2.getNext();
+
+      if (walkL2 == startL2) {
+        return false; // No matching starting node can be found
+      }
+    }
+
+    // Check the remaining elements to determine if the sequences match
+    Node<E> tempL1 = startL1.getNext();
+    Node<E> tempL2 = walkL2.getNext();
+
+    while (tempL1 != startL1 && tempL2 != startL2) {
+      if (!tempL1.getElement().equals(tempL2.getElement())) {
+        return false; // Sequence not match
+      }
+      tempL1 = tempL1.getNext();
+      tempL2 = tempL2.getNext();
+    }
+
+    return true; // Sequences match
+  }
+
+  /* YuenKwanLI (Xavier) 301228849 */
+  public static void main(String[] args) {
+    /*
+    //(LAX, MSP, ATL, BOS)
+    CircularlyLinkedList<String> circularList = new CircularlyLinkedList<String>();
+    circularList.addFirst("LAX");
+    circularList.addLast("MSP");
+    circularList.addLast("ATL");
+    circularList.addLast("BOS");
+    //
+    System.out.println(circularList);
+    circularList.removeFirst();
+    System.out.println(circularList);
+    circularList.rotate();
+    System.out.println(circularList);
+    //
+    */
+
+    // Creating two circularly linked lists (L1 and L2)
+    CircularlyLinkedList<Integer> L1 = new CircularlyLinkedList<>();
+    CircularlyLinkedList<Integer> L2 = new CircularlyLinkedList<>();
+
+    // Test #1 - positive test case
+    // Add elements to L1
+    L1.addLast(1);
+    L1.addLast(2);
+    L1.addLast(3);
+    L1.addLast(4);
+    L1.addLast(5);
+
+    // Add elements to L2
+    L2.addLast(1);
+    L2.addLast(2);
+    L2.addLast(3);
+    L2.addLast(4);
+    L2.addLast(5);
+
+    // Display the contents of L1 and L2
+    System.out.println("Test #1 - L1: " + L1);
+    System.out.println("Test #1 - L2: " + L2);
+
+    // Test the checkElements method
+    boolean sequenceMatch = hasSameElementsSeq(L1, L2);
+
+    // Display the result of the checkElements method
+    System.out.println("Test #1 - Sequence Match: " + sequenceMatch);
+
+    System.out.println("");
+
+    // Test #2 - positive test case
+    // Add elements to L1
+    L1 = new CircularlyLinkedList<>();
+    L1.addLast(1);
+    L1.addLast(2);
+    L1.addLast(3);
+    L1.addLast(4);
+    L1.addLast(5);
+
+    // Add elements to L2
+    L2 = new CircularlyLinkedList<>();
+    L2.addLast(5);
+    L2.addLast(4);
+    L2.addLast(1);
+    L2.addLast(2);
+    L2.addLast(3);
+
+    // Display the contents of L1 and L2
+    System.out.println("Test #2 - L1: " + L1);
+    System.out.println("Test #2 - L2: " + L2);
+
+    // Test the checkElements method
+    sequenceMatch = hasSameElementsSeq(L1, L2);
+
+    // Display the result of the checkElements method
+    System.out.println("Test #2 - Sequence Match: " + sequenceMatch);
+
+    System.out.println("");
+
+    // Test #3 - negative test case
+    // Add elements to L1
+    L1 = new CircularlyLinkedList<>();
+    L1.addLast(1);
+    L1.addLast(2);
+    L1.addLast(3);
+    L1.addLast(4);
+    L1.addLast(5);
+
+    // Add elements to L2
+    L2 = new CircularlyLinkedList<>();
+    L2.addLast(5);
+    L2.addLast(4);
+    L2.addLast(0);
+    L2.addLast(2);
+    L2.addLast(3);
+
+    // Display the contents of L1 and L2
+    System.out.println("Test #3 - L1: " + L1);
+    System.out.println("Test #3 - L2: " + L2);
+
+    // Test the checkElements method
+    sequenceMatch = hasSameElementsSeq(L1, L2);
+
+    // Display the result of the checkElements method
+    System.out.println("Test #3 - Sequence Match: " + sequenceMatch);
+  }
+
 }

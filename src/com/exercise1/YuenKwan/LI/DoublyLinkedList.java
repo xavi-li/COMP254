@@ -317,10 +317,10 @@ public class DoublyLinkedList<E> {
 	  list.addFirst("LAX");
 	  //
 
-      // Test swapTwoNodes method #1 - non-adjacent nodes
-      // Get references to the 1st and 4th nodes
+      // Test #1 - 1st and 2nd nodes
+      // Get references to the 1st and 2nd nodes
       Node<String> node1 = list.header.getNext(); // 1st node
-      Node<String> node2 = list.trailer.getPrev(); // 4th node
+      Node<String> node2 = list.header.getNext().getNext(); // 2th node
 
       // Display the original list
       System.out.println("Test #1 - Original List: " + list);
@@ -332,14 +332,12 @@ public class DoublyLinkedList<E> {
       list.swapTwoNodes(node1, node2);
 
       // Display the swapped list
-      System.out.println("Test #1 - List after swap: " + list);
+      System.out.println("Test #1 - List after swap: " + list + "\n");
 
-      System.out.println("");
-
-      // Test swapTwoNodes method #2 - adjacent nodes
-      // Get references to the 1st and 2nd nodes
+      // Test #2 - 1st and 3rd nodes
+      // Get references to the 1st and 3rd nodes
       node1 = list.header.getNext(); // 1st node
-      node2 = list.header.getNext().getNext(); // 2nd node
+      node2 = list.header.getNext().getNext().getNext(); // 3rd node
 
       // Display the original list
       System.out.println("Test #2 - Original List: " + list);
@@ -351,6 +349,75 @@ public class DoublyLinkedList<E> {
       list.swapTwoNodes(node1, node2);
 
       // Display the swapped list
-      System.out.println("Test #2 - List after swap: " + list);
+      System.out.println("Test #2 - List after swap: " + list + "\n");
+
+      // Test #3 - 1st and 4th nodes
+      // Get references to the 1st and 4th nodes
+      node1 = list.header.getNext(); // 1st node
+      node2 = list.trailer.getPrev(); // 4th node
+
+      // Display the original list
+      System.out.println("Test #3 - Original List: " + list);
+
+      // Display the nodes to swap
+      System.out.println("Test #3 - Nodes to swap: " + node1.getElement() + ", " + node2.getElement());
+
+      // Swap the nodes
+      list.swapTwoNodes(node1, node2);
+
+      // Display the swapped list
+      System.out.println("Test #3 - List after swap: " + list + "\n");
+
+      // Test #4 - 2nd and 3rd nodes
+      // Get references to the 2nd and 3rd nodes
+      node1 = list.header.getNext().getNext(); // 2nd node
+      node2 = list.header.getNext().getNext().getNext(); // 3rd node
+
+      // Display the original list
+      System.out.println("Test #4 - Original List: " + list);
+
+      // Display the nodes to swap
+      System.out.println("Test #4 - Nodes to swap: " + node1.getElement() + ", " + node2.getElement());
+
+      // Swap the nodes
+      list.swapTwoNodes(node1, node2);
+
+      // Display the swapped list
+      System.out.println("Test #4 - List after swap: " + list + "\n");
+
+      // Test #5 - 2nd and 4th nodes
+      // Get references to the 2nd and 4th nodes
+      node1 = list.header.getNext().getNext(); // 2nd node
+      node2 = list.trailer.getPrev(); // 4th node
+
+      // Display the original list
+      System.out.println("Test #5 - Original List: " + list);
+
+      // Display the nodes to swap
+      System.out.println("Test #5 - Nodes to swap: " + node1.getElement() + ", " + node2.getElement());
+
+      // Swap the nodes
+      list.swapTwoNodes(node1, node2);
+
+      // Display the swapped list
+      System.out.println("Test #5 - List after swap: " + list + "\n");
+
+      // Test #6 - 3rd and 4th nodes
+      // Get references to the 3rd and 4th nodes
+      node1 = list.header.getNext().getNext().getNext(); // 3rd node
+      node2 = list.trailer.getPrev(); // 4th node
+
+      // Display the original list
+      System.out.println("Test #6 - Original List: " + list);
+
+      // Display the nodes to swap
+      System.out.println("Test #6 - Nodes to swap: " + node1.getElement() + ", " + node2.getElement());
+
+      // Swap the nodes
+      list.swapTwoNodes(node1, node2);
+
+      // Display the swapped list
+      System.out.println("Test #6 - List after swap: " + list + "\n");
+
   }
 } //----------- end of DoublyLinkedList class -----------
